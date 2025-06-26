@@ -110,6 +110,7 @@ public:
     Snake snake;
     Food food = Food(snake.snakeBody);
     bool game = true;
+    int score = 3;
 
     void Draw(){
         food.Draw();
@@ -128,6 +129,7 @@ public:
         if(Vector2Equals(snake.snakeBody[0], food.position)){
             food.position = food.GenerateRandomPosition(snake.snakeBody);
             snake.addSegment = true;
+            score++;
         }
     }
     void gameOver(){
@@ -175,6 +177,7 @@ int main(){
 
         if(game.game == false && IsKeyPressed(KEY_ENTER)){
             game.game = true;
+            game.score = 3;
         }
 
         if(IsKeyPressed(KEY_W) && game.snake.direction.y != 1){
@@ -188,6 +191,15 @@ int main(){
         }
         if(IsKeyPressed(KEY_D) && game.snake.direction.x != -1){
             game.snake.direction = {1,0};
+        }
+
+        //ScoreBoard
+        string score = "Score : " + to_string(game.score); 
+        DrawText(score.c_str(),0,0,16,snake_Color);
+
+        if(game.game == false){
+            DrawText("Game Over",250,350,50,RED);
+            DrawText("Press Enter To Replay",250,400,20,RED);
         }
 
         //End Of KeyInpus and End Drawing
