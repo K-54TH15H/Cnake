@@ -111,6 +111,7 @@ public:
     Food food = Food(snake.snakeBody);
     bool game = true;
     int score = 3;
+    int high_score = 3;
 
     void Draw(){
         food.Draw();
@@ -135,6 +136,9 @@ public:
     void gameOver(){
         snake.Reset();
         food.position = food.GenerateRandomPosition(snake.snakeBody);
+        if(score > high_score){
+            high_score = score;
+        }
         game = false;
     }
     void edgeCollision(){
@@ -151,6 +155,7 @@ public:
         }
     }
 };
+
 //main call
 int main(){
 
@@ -194,12 +199,16 @@ int main(){
         }
 
         //ScoreBoard
-        string score = "Score : " + to_string(game.score); 
+        string score = "Score : " + to_string(game.score);
+        string high_score = "HighScore : " + to_string(game.high_score); 
         DrawText(score.c_str(),0,0,16,snake_Color);
-
+        DrawText(high_score.c_str(),0,20,16,snake_Color);
         if(game.game == false){
             DrawText("Game Over",250,350,50,RED);
             DrawText("Press Enter To Replay",250,400,20,RED);
+            if(game.score == game.high_score){
+                DrawText("NEW HIGH SCORE!",200,450,40,RED);
+            }
         }
 
         //End Of KeyInpus and End Drawing
